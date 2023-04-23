@@ -30,6 +30,7 @@
               type="text"
               class="form-control form-control-lg"
               placeholder="Enter your email"
+              v-model="email"
             />
           </fieldset>
           <fieldset class="form-group">
@@ -44,6 +45,7 @@
               type="text"
               class="form-control form-control-lg"
               placeholder="Enter your username"
+              v-model="username"
             />
           </fieldset>
           <fieldset class="form-group">
@@ -51,9 +53,15 @@
               type="text"
               class="form-control form-control-lg"
               placeholder="Enter your password"
+              v-model="password"
             />
           </fieldset>
-          <button class="btn btn-lg btn-primary pull-xs-right">Create</button>
+          <button
+            class="btn btn-lg btn-primary pull-xs-right"
+            :disabled="isOnSubmit"
+          >
+            Create an account
+          </button>
         </form>
       </div>
     </div>
@@ -63,8 +71,33 @@
 <script>
 export default {
   name: 'McRegisterView',
+  data() {
+    return {
+      email: '',
+      username: '',
+      password: '',
+    }
+  },
+  computed: {
+    isOnSubmit() {
+      return this.$store.state.authentication.isOnSubmit
+    },
+  },
   methods: {
-    onSubmit() {},
+    onSubmit() {
+      this.$store
+        .dispatch('register', {
+          email: this.email,
+          username: this.username,
+          password: this.password,
+        })
+        .then(() => {
+          this.$router.push({name: 'home'})
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
   },
 }
 </script>
