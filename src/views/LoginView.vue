@@ -2,11 +2,11 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12 offset-xs-0">
-        <h1 class="text-xs-center">Create an account</h1>
+        <h1 class="text-xs-center">Login</h1>
         <p class="text-xs-center">
           <span>
-            <router-link :to="{name: 'login'}"
-              >Already have an account?</router-link
+            <router-link :to="{name: 'register'}"
+              >Do not have an account yet?</router-link
             >
           </span>
           <span> • </span>
@@ -20,37 +20,8 @@
             <input
               type="text"
               class="form-control form-control-lg"
-              placeholder="Enter your first name"
-            />
-          </fieldset>
-          <fieldset class="form-group">
-            <input
-              type="text"
-              class="form-control form-control-lg"
-              placeholder="Enter your last name"
-            />
-          </fieldset>
-          <fieldset class="form-group">
-            <input
-              type="text"
-              class="form-control form-control-lg"
               placeholder="Enter your email"
               v-model="email"
-            />
-          </fieldset>
-          <fieldset class="form-group">
-            <input
-              type="text"
-              class="form-control form-control-lg"
-              placeholder="Enter your phone number"
-            />
-          </fieldset>
-          <fieldset class="form-group">
-            <input
-              type="text"
-              class="form-control form-control-lg"
-              placeholder="Enter your username"
-              v-model="username"
             />
           </fieldset>
           <fieldset class="form-group">
@@ -65,7 +36,7 @@
             class="btn btn-lg btn-primary pull-xs-right"
             :disabled="isOnSubmit"
           >
-            Create an account
+            Login
           </button>
         </form>
       </div>
@@ -78,14 +49,13 @@ import {actionsTypes} from '@/store/modules/authentication'
 import {mapState} from 'vuex'
 
 // components
-import McErrors from '@/components/Errors'
+import McErrors from '@/components/Errors.vue'
 
 export default {
-  name: 'McRegisterView',
+  name: 'McLoginView',
   data() {
     return {
       email: '',
-      username: '',
       password: '',
     }
   },
@@ -101,16 +71,15 @@ export default {
   methods: {
     onSubmit() {
       this.$store
-        .dispatch(actionsTypes.register, {
+        .dispatch(actionsTypes.login, {
           email: this.email,
-          username: this.username,
           password: this.password,
         })
         .then(() => {
           this.$router.push({name: 'home'})
         })
         .catch(error => {
-          console.error(`Register error: ${JSON.stringify(error)}`)
+          console.error(`Login error: ${JSON.stringify(error)}`)
         })
     },
   },
