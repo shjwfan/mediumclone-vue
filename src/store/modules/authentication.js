@@ -102,10 +102,17 @@ const actions = {
   },
 }
 
+const getters = {
+  user: state => {
+    return state.user
+  },
+}
+
 export {mutationsTypes, actionsTypes}
 
 export default {
   state,
   mutations,
   actions,
+  getters,
 }
