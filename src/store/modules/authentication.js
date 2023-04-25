@@ -20,6 +20,13 @@ const actionsTypes = {
   register: '[authentication] register',
 }
 
+const gettersTypes = {
+  isAnonymous: '[authentication] isAnonymous',
+  isOnSubmit: '[authentication] isOnSubmit',
+  errors: '[authentication] errors',
+  user: '[authentication] user',
+}
+
 const mutations = {
   [mutationsTypes.loginStart](state) {
     state.isOnSubmit = true
@@ -103,12 +110,21 @@ const actions = {
 }
 
 const getters = {
-  user: state => {
+  [gettersTypes.isAnonymous]: state => {
+    return state.user === null
+  },
+  [gettersTypes.isOnSubmit]: state => {
+    return state.isOnSubmit
+  },
+  [gettersTypes.errors]: state => {
+    return state.errors
+  },
+  [gettersTypes.user]: state => {
     return state.user
   },
 }
 
-export {mutationsTypes, actionsTypes}
+export {mutationsTypes, actionsTypes, gettersTypes}
 
 export default {
   state,

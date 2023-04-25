@@ -4,7 +4,27 @@
       <router-link class="navbar-brand" :to="{name: 'home'}">
         MediumClone
       </router-link>
-      <ul class="nav navbar-nav pull-xs-right" v-if="!!user">
+      <ul class="nav navbar-nav pull-xs-right" v-if="isAnonymous">
+        <li class="nav-item">
+          <router-link
+            class="nav-link"
+            active-class="active"
+            :to="{name: 'login'}"
+          >
+            Login
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+            class="nav-link"
+            active-class="active"
+            :to="{name: 'register'}"
+          >
+            Register
+          </router-link>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav pull-xs-right" v-else>
         <li class="nav-item">
           <!-- todo: add articles view -->
           <router-link class="nav-link" :to="{name: ''}">
@@ -29,38 +49,20 @@
           </router-link>
         </li>
       </ul>
-      <ul class="nav navbar-nav pull-xs-right" v-else>
-        <li class="nav-item">
-          <router-link
-            class="nav-link"
-            active-class="active"
-            :to="{name: 'login'}"
-          >
-            Login
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link
-            class="nav-link"
-            active-class="active"
-            :to="{name: 'register'}"
-          >
-            Register
-          </router-link>
-        </li>
-      </ul>
     </div>
   </nav>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapGetters} from 'vuex'
+import {gettersTypes} from '@/store/modules/authentication'
 
 export default {
   name: 'McHeader',
   computed: {
-    ...mapState({
-      user: state => state.authentication.user,
+    ...mapGetters({
+      isAnonymous: gettersTypes.isAnonymous,
+      user: gettersTypes.user,
     }),
   },
 }

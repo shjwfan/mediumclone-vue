@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import {actionsTypes} from '@/store/modules/authentication'
-import {mapState} from 'vuex'
+import {mapGetters} from 'vuex'
+import {actionsTypes, gettersTypes} from '@/store/modules/authentication'
 
 // components
 import McErrors from '@/components/Errors.vue'
@@ -63,9 +63,9 @@ export default {
     McErrors,
   },
   computed: {
-    ...mapState({
-      isOnSubmit: state => state.authentication.isOnSubmit,
-      errors: state => state.authentication.errors,
+    ...mapGetters({
+      isOnSubmit: gettersTypes.isOnSubmit,
+      errors: gettersTypes.errors,
     }),
   },
   methods: {
