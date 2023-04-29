@@ -21,7 +21,6 @@ const actionsTypes = {
 }
 
 const gettersTypes = {
-  isAnonymous: '[authentication] isAnonymous',
   isOnSubmit: '[authentication] isOnSubmit',
   errors: '[authentication] errors',
 }
@@ -31,9 +30,9 @@ const mutations = {
     state.isOnSubmit = true
     state.errors = null
   },
-  [mutationsTypes.loginSuccess](state, payload) {
+  [mutationsTypes.loginSuccess](state) {
     state.isOnSubmit = false
-    state.user = payload
+    state.errors = null
   },
   [mutationsTypes.loginFailure](state, payload) {
     state.isOnSubmit = false
@@ -44,9 +43,9 @@ const mutations = {
     state.isOnSubmit = true
     state.errors = null
   },
-  [mutationsTypes.registerSuccess](state, payload) {
+  [mutationsTypes.registerSuccess](state) {
     state.isOnSubmit = false
-    state.user = payload
+    state.errors = null
   },
   [mutationsTypes.registerFailure](state, payload) {
     state.isOnSubmit = false
@@ -55,53 +54,53 @@ const mutations = {
 }
 
 const actions = {
-  [actionsTypes.login](context, credentials) {
+  [actionsTypes.login](c, credentials) {
     return new Promise((resolve, reject) => {
-      context.commit(mutationsTypes.loginStart)
+      c.commit(mutationsTypes.loginStart)
       api
         .login(credentials)
         .then(response => {
-          const user = response.data.user
-          context.commit(mutationsTypes.loginSuccess, user)
+          const token = response.data.user.token
+          c.commit(mutationsTypes.loginSuccess)
 
           try {
-            localStorage.setItem('token', JSON.stringify(user.token))
+            localStorage.setItem('token', JSON.stringify(token))
           } catch (error) {
             console.log(error)
             throw new Error(error)
           }
 
-          resolve(user)
+          resolve(token)
         })
         .catch(error => {
           const errors = error.response.data.errors
-          context.commit(mutationsTypes.loginFailure, errors)
+          c.commit(mutationsTypes.loginFailure, errors)
 
           reject(errors)
         })
     })
   },
-  [actionsTypes.register](context, credentials) {
+  [actionsTypes.register](c, credentials) {
     return new Promise((resolve, reject) => {
-      context.commit(mutationsTypes.registerStart)
+      c.commit(mutationsTypes.registerStart)
       api
         .register(credentials)
         .then(response => {
-          const user = response.data.user
-          context.commit(mutationsTypes.registerSuccess, user)
+          const token = response.data.user.token
+          c.commit(mutationsTypes.registerSuccess)
 
           try {
-            localStorage.setItem('token', JSON.stringify(user.token))
+            localStorage.setItem('token', JSON.stringify(token))
           } catch (error) {
             console.log(error)
             throw new Error(error)
           }
 
-          resolve(user)
+          resolve(token)
         })
         .catch(error => {
           const errors = error.response.data.errors
-          context.commit(mutationsTypes.registerFailure, errors)
+          c.commit(mutationsTypes.registerFailure, errors)
 
           reject(errors)
         })
@@ -110,9 +109,6 @@ const actions = {
 }
 
 const getters = {
-  [gettersTypes.isAnonymous]: state => {
-    return state.user === null
-  },
   [gettersTypes.isOnSubmit]: state => {
     return state.isOnSubmit
   },

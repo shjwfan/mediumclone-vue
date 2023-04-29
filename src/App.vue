@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import {actionsTypes} from '@/store/modules/authentication'
+import {actionsTypes as userActionsTypes} from '@/store/modules/user'
 
 // components
 import McHeader from '@/components/Header.vue'
@@ -17,7 +17,7 @@ export default {
     McHeader,
   },
   mounted() {
-    this.$store.dispatch(actionsTypes.pullUser)
-  }
+    this.$store.dispatch(userActionsTypes.pullUser)
+  },
 }
 </script>

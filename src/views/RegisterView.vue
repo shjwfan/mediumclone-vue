@@ -20,29 +20,8 @@
             <input
               type="text"
               class="form-control form-control-lg"
-              placeholder="Enter your first name"
-            />
-          </fieldset>
-          <fieldset class="form-group">
-            <input
-              type="text"
-              class="form-control form-control-lg"
-              placeholder="Enter your last name"
-            />
-          </fieldset>
-          <fieldset class="form-group">
-            <input
-              type="text"
-              class="form-control form-control-lg"
               placeholder="Enter your email"
               v-model="email"
-            />
-          </fieldset>
-          <fieldset class="form-group">
-            <input
-              type="text"
-              class="form-control form-control-lg"
-              placeholder="Enter your phone number"
             />
           </fieldset>
           <fieldset class="form-group">
@@ -63,7 +42,7 @@
           </fieldset>
           <button
             class="btn btn-lg btn-primary pull-xs-right"
-            :disabled="isOnSubmit"
+            :disabled="isAuthenticating"
           >
             Create an account
           </button>
@@ -75,7 +54,11 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import {actionsTypes, gettersTypes} from '@/store/modules/authentication'
+import {
+  actionsTypes as authenticationActionsTypes,
+  gettersTypes as authenticationGettersTypes,
+} from '@/store/modules/authentication'
+import {actionsTypes as userActionsTypes} from '@/store/modules/user'
 
 // components
 import McErrors from '@/components/Errors'
@@ -94,20 +77,27 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isOnSubmit: gettersTypes.isOnSubmit,
-      errors: gettersTypes.errors,
+      isAuthenticating: authenticationGettersTypes.isOnSubmit,
+      errors: authenticationGettersTypes.errors,
     }),
   },
   methods: {
     onSubmit() {
       this.$store
-        .dispatch(actionsTypes.register, {
+        .dispatch(authenticationActionsTypes.register, {
           email: this.email,
           username: this.username,
           password: this.password,
         })
         .then(() => {
-          this.$router.push({name: 'home'})
+          this.$store
+            .dispatch(userActionsTypes.pullUser)
+            .then(() => {
+              this.$router.push({name: 'home'})
+            })
+            .catch(error => {
+              console.error(`Pulling user error: ${JSON.stringify(error)}`)
+            })
         })
         .catch(error => {
           console.error(`Register error: ${JSON.stringify(error)}`)

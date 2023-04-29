@@ -46,7 +46,11 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import {actionsTypes, gettersTypes} from '@/store/modules/authentication'
+import {
+  actionsTypes as authenticationActionsTypes,
+  gettersTypes as authenticationGettersTypes,
+} from '@/store/modules/authentication'
+import {actionsTypes as userActionsTypes} from '@/store/modules/user'
 
 // components
 import McErrors from '@/components/Errors.vue'
@@ -64,19 +68,26 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isOnSubmit: gettersTypes.isOnSubmit,
-      errors: gettersTypes.errors,
+      isOnSubmit: authenticationGettersTypes.isOnSubmit,
+      errors: authenticationGettersTypes.errors,
     }),
   },
   methods: {
     onSubmit() {
       this.$store
-        .dispatch(actionsTypes.login, {
+        .dispatch(authenticationActionsTypes.login, {
           email: this.email,
           password: this.password,
         })
         .then(() => {
-          this.$router.push({name: 'home'})
+          this.$store
+            .dispatch(userActionsTypes.pullUser)
+            .then(() => {
+              this.$router.push({name: 'home'})
+            })
+            .catch(error => {
+              console.error(`Pulling user error: ${JSON.stringify(error)}`)
+            })
         })
         .catch(error => {
           console.error(`Login error: ${JSON.stringify(error)}`)
