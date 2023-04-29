@@ -6,8 +6,7 @@
       </router-link>
       <ul class="nav navbar-nav pull-xs-right" v-if="user !== null">
         <li class="nav-item">
-          <!-- todo: add articles view -->
-          <router-link class="nav-link" :to="{name: ''}">
+          <router-link class="nav-link" :to="{name: 'articles'}">
             Articles
           </router-link>
         </li>
