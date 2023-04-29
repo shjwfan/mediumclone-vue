@@ -11,7 +11,7 @@
           </span>
           <span> • </span>
           <span class="text-xs-center">
-            <router-link :to="{name: 'home'}">Home page</router-link>
+            <router-link :to="{name: ''}">Home page</router-link>
           </span>
         </p>
         <mc-errors v-if="errors" :errors="errors"></mc-errors>
@@ -83,7 +83,7 @@ export default {
           this.$store
             .dispatch(userActionsTypes.pullUser)
             .then(() => {
-              this.$router.push({name: 'home'})
+              this.$router.push({name: ''})
             })
             .catch(error => {
               console.error(`Pulling user error: ${JSON.stringify(error)}`)
