@@ -8,12 +8,7 @@ const register = credentials => {
   return axios.post('/users', {user: credentials})
 }
 
-const pullUser = () => {
-  return axios.get('/user')
-}
-
 export default {
   login,
   register,
-  pullUser
 }

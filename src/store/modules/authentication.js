@@ -2,9 +2,7 @@ import api from '@/api/authentication'
 
 const state = {
   isOnSubmit: false,
-  isPullingUser: false,
   errors: null,
-  user: null,
 }
 
 const mutationsTypes = {
@@ -15,24 +13,17 @@ const mutationsTypes = {
   registerStart: '[authentication] registerStart',
   registerSuccess: '[authentication] registerSuccess',
   registerFailure: '[authentication] registerFailure',
-
-  pullUserStart: '[authentication] pullUserStart',
-  pullUserSuccess: '[authentication] pullUserSuccess',
-  pullUserFailure: '[authentication] pullUserFailure',
 }
 
 const actionsTypes = {
   login: '[authentication] login',
   register: '[authentication] register',
-  pullUser: '[authentication] getUser',
 }
 
 const gettersTypes = {
   isAnonymous: '[authentication] isAnonymous',
-  isPullingUser: '[authentication] isPullingUser',
   isOnSubmit: '[authentication] isOnSubmit',
   errors: '[authentication] errors',
-  user: '[authentication] user',
 }
 
 const mutations = {
@@ -61,18 +52,6 @@ const mutations = {
     state.isOnSubmit = false
     state.errors = payload
   },
-
-  [mutationsTypes.pullUserStart](state) {
-    state.isPullingUser = true;
-  },
-  [mutationsTypes.pullUserSuccess](state, payload) {
-    state.isPullingUser = false;
-    state.user = payload
-  },
-  [mutationsTypes.pullUserFailure](state) {
-    state.isPullingUser = false;
-    state.user = null
-  }
 }
 
 const actions = {
@@ -128,24 +107,6 @@ const actions = {
         })
     })
   },
-  [actionsTypes.pullUser](context) {
-    return new Promise((resolve, reject) => {
-      context.commit(mutationsTypes.pullUserStart)
-      api
-        .pullUser()
-        .then(response => {
-          const user = response.data.user
-          context.commit(mutationsTypes.pullUserSuccess, user)
-
-          resolve(user)
-        })
-        .catch(() => {
-          context.commit(mutationsTypes.pullUserFailure)
-
-          reject()
-        })
-    })
-  },
 }
 
 const getters = {
@@ -155,14 +116,8 @@ const getters = {
   [gettersTypes.isOnSubmit]: state => {
     return state.isOnSubmit
   },
-  [gettersTypes.isPullingUser]: state => {
-    return state.isPullingUser
-  },
   [gettersTypes.errors]: state => {
     return state.errors
-  },
-  [gettersTypes.user]: state => {
-    return state.user
   },
 }
 
