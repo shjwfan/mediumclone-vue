@@ -14,7 +14,7 @@
             <router-link :to="{name: 'articles'}">Home page</router-link>
           </span>
         </p>
-        <mc-errors v-if="errors" :errors="errors"></mc-errors>
+        <mc-errors v-if="errors" :errors="errors" />
         <form @submit.prevent="onSubmit">
           <fieldset class="form-group">
             <input

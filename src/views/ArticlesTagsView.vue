@@ -3,7 +3,8 @@
     <mc-banner />
     <div class="row">
       <div class="col-md-9">
-        <mc-articles :pullingUrl="pullingUrl"></mc-articles>
+        <mc-articles-switch :tag="tag" />
+        <mc-articles :pullingUrl="pullingUrl" />
       </div>
       <div class="col-md-3">
         <mc-tags />
@@ -15,6 +16,7 @@
 <script>
 // components
 import McArticles from '@/components/Articles.vue'
+import McArticlesSwitch from '@/components/ArticlesSwitch.vue'
 import McBanner from '@/components/Banner.vue'
 import McTags from '@/components/Tags.vue'
 
@@ -22,13 +24,16 @@ export default {
   name: 'McArticlesFeedView',
   components: {
     McArticles,
+    McArticlesSwitch,
     McBanner,
     McTags,
   },
   computed: {
+    tag() {
+      return String(this.$route.params.tag)
+    },
     pullingUrl() {
-      const tag = this.$route.params.tag
-      return `/articles?tag=${tag}`
+      return `/articles?tag=${this.tag}`
     },
   },
 }
