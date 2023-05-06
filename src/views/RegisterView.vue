@@ -61,7 +61,7 @@ import {
 import {actionsTypes as userActionsTypes} from '@/store/modules/user'
 
 // components
-import McErrors from '@/components/Errors'
+import McErrors from '@/components/Errors.vue'
 
 export default {
   name: 'McRegisterView',
