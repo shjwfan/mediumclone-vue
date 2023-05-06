@@ -14,13 +14,13 @@ import McArticles from '@/components/Articles.vue'
 
 export default {
   name: 'McFeedsView',
-  components: {
-    McArticles,
-  },
   data() {
     return {
       pullingUrl: '/articles',
     }
+  },
+  components: {
+    McArticles,
   },
 }
 </script>

@@ -2,6 +2,7 @@ import api from '@/api/articles'
 
 const state = {
   articles: null,
+  articlesCount: 0,
   pullingErrors: null,
   isPulling: false,
 }
@@ -18,6 +19,7 @@ const actionsTypes = {
 
 const gettersTypes = {
   articles: '[articles] articles',
+  articlesCount: '[articles] articlesCount',
   pullingErrors: '[articles] pullingErrors',
   isPulling: '[articles] isPulling',
 }
@@ -25,16 +27,19 @@ const gettersTypes = {
 const mutations = {
   [mutationsTypes.pullingArticlesStart](state) {
     state.articles = null
+    state.articlesCount = 0
     state.pullingErrors = null
     state.isPulling = true
   },
   [mutationsTypes.pullingArticlesSuccess](state, payload) {
-    state.articles = payload
+    state.articles = payload.articles
+    state.articlesCount = payload.articlesCount
     state.pullingErrors = null
     state.isPulling = false
   },
   [mutationsTypes.pullingArticlesFailure](state, payload) {
     state.articles = null
+    state.articlesCount = 0
     state.pullingErrors = payload
     state.isPulling = false
   },
@@ -48,9 +53,13 @@ const actions = {
         .pullArticles(pullingUrl)
         .then(response => {
           const articles = response.data.articles
-          c.commit(mutationsTypes.pullingArticlesSuccess, articles)
+          const articlesCount = response.data.articlesCount
+          c.commit(mutationsTypes.pullingArticlesSuccess, {
+            articles,
+            articlesCount,
+          })
 
-          resolve(articles)
+          resolve({articles, articlesCount})
         })
         .catch(error => {
           const errors = error.response.data.errors
@@ -65,6 +74,9 @@ const actions = {
 const getters = {
   [gettersTypes.articles]: state => {
     return state.articles
+  },
+  [gettersTypes.articlesCount]: state => {
+    return state.articlesCount
   },
   [gettersTypes.pullingErrors]: state => {
     return state.pullingErrors

@@ -16,8 +16,13 @@ export default {
   components: {
     McHeader,
   },
+  methods: {
+    pullUser() {
+      this.$store.dispatch(userActionsTypes.pullUser)
+    },
+  },
   mounted() {
-    this.$store.dispatch(userActionsTypes.pullUser)
+    this.pullUser()
   },
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="container">
-      <router-link class="navbar-brand" :to="{name: ''}">
+      <router-link class="navbar-brand" :to="{name: 'articles'}">
         MediumClone
       </router-link>
       <ul class="nav navbar-nav pull-xs-right" v-if="user !== null">

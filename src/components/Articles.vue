@@ -26,16 +26,25 @@
       </router-link>
     </div>
   </div>
+  <mc-pagination
+    :page="page"
+    :perPage="perPage"
+    :total="articlesCount"
+    :url="this.$route.path"
+  />
   <div v-if="pullingErrors !== null">{{ pullingErrors }}</div>
   <div v-if="isPulling">Pulling...</div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import qs from 'query-string'
 import {
   actionsTypes as articlesActionsTypes,
   gettersTypes as articlesGettersTypes,
 } from '@/store/modules/articles'
+import McPagination from '@/components/Pagination.vue'
+import {PER_PAGE} from '@/vars'
 
 export default {
   name: 'McArticles',
@@ -45,17 +54,43 @@ export default {
       required: true,
     },
   },
+  components: {
+    McPagination,
+  },
   computed: {
+    page() {
+      return Number(this.$route.query.page || '1')
+    },
+    perPage() {
+      return PER_PAGE
+    },
     ...mapGetters({
       articles: articlesGettersTypes.articles,
+      articlesCount: articlesGettersTypes.articlesCount,
       pullingErrors: articlesGettersTypes.pullingErrors,
       isPulling: articlesGettersTypes.isPulling,
     }),
   },
+  methods: {
+    pullArticles() {
+      const url = qs.parseUrl(this.pullingUrl)
+      const urlQuery = qs.stringify({
+        limit: this.perPage,
+        offset: this.page * this.perPage - this.perPage,
+        ...url.query,
+      })
+      this.$store.dispatch(articlesActionsTypes.pullArticles, {
+        pullingUrl: `${url.url}?${urlQuery}`,
+      })
+    },
+  },
   mounted() {
-    this.$store.dispatch(articlesActionsTypes.pullArticles, {
-      pullingUrl: this.pullingUrl,
-    })
+    this.pullArticles()
+  },
+  watch: {
+    page() {
+      this.pullArticles()
+    },
   },
 }
 </script>
