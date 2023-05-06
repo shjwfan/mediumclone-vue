@@ -2,7 +2,7 @@ import api from '@/api/user'
 
 const state = {
   user: null,
-  pullingErrors: null,
+  pullingError: null,
   isPulling: false,
 }
 
@@ -18,19 +18,19 @@ const actionsTypes = {
 
 const gettersTypes = {
   user: '[user] user',
-  pullingErrors: '[user] pullingErrors',
+  pullingError: '[user] pullingError',
   isPulling: '[user] isPulling',
 }
 
 const mutations = {
   [mutationsTypes.pullingUserStart](state) {
     state.user = null
-    state.pullingErrors = null
+    state.pullingError = null
     state.isPulling = true
   },
   [mutationsTypes.pullingUserSuccess](state, payload) {
     state.user = payload
-    state.pullingErrors = null
+    state.pullingError = null
     state.isPulling = false
   },
   [mutationsTypes.pullingUserFailure](state, payload) {
@@ -66,8 +66,8 @@ const getters = {
   [gettersTypes.user]: state => {
     return state.user
   },
-  [gettersTypes.pullingErrors]: state => {
-    return state.pullingErrors
+  [gettersTypes.pullingError]: state => {
+    return state.pullingError
   },
   [gettersTypes.isPulling]: state => {
     return state.isPulling

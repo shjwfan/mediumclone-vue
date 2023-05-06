@@ -9,8 +9,8 @@
       </div>
     </div>
   </div>
-  <div v-if="pullingErrors !== null">{{ pullingErrors }}</div>
-  <div v-if="isPulling">Pulling...</div>
+  <mc-pulling-error v-if="pullingError !== null" :error="pullingError" />
+  <mc-pulling v-if="isPulling" />
 </template>
 
 <script>
@@ -20,12 +20,20 @@ import {
   gettersTypes as tagsGettersTypes,
 } from '@/store/modules/tags'
 
+// components
+import McPulling from '@/components/Pulling.vue'
+import McPullingError from '@/components/PullingError.vue'
+
 export default {
   name: 'McTags',
+  components: {
+    McPulling,
+    McPullingError,
+  },
   computed: {
     ...mapGetters({
       tags: tagsGettersTypes.tags,
-      pullingErrors: tagsGettersTypes.pullingErrors,
+      pullingError: tagsGettersTypes.pullingError,
       isPulling: tagsGettersTypes.isPulling,
     }),
   },

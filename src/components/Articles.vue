@@ -32,8 +32,8 @@
     :total="articlesCount"
     :url="this.$route.path"
   />
-  <div v-if="pullingErrors !== null">{{ pullingErrors }}</div>
-  <div v-if="isPulling">Pulling...</div>
+  <mc-pulling-error v-if="pullingError !== null" :error="pullingError" />
+  <mc-pulling v-if="isPulling" />
 </template>
 
 <script>
@@ -43,8 +43,12 @@ import {
   actionsTypes as articlesActionsTypes,
   gettersTypes as articlesGettersTypes,
 } from '@/store/modules/articles'
-import McPagination from '@/components/Pagination.vue'
 import {PER_PAGE} from '@/vars'
+
+// components
+import McPagination from '@/components/Pagination.vue'
+import McPulling from '@/components/Pulling.vue'
+import McPullingError from '@/components/PullingError.vue'
 
 export default {
   name: 'McArticles',
@@ -56,6 +60,8 @@ export default {
   },
   components: {
     McPagination,
+    McPulling,
+    McPullingError,
   },
   computed: {
     page() {
@@ -67,7 +73,7 @@ export default {
     ...mapGetters({
       articles: articlesGettersTypes.articles,
       articlesCount: articlesGettersTypes.articlesCount,
-      pullingErrors: articlesGettersTypes.pullingErrors,
+      pullingError: articlesGettersTypes.pullingError,
       isPulling: articlesGettersTypes.isPulling,
     }),
   },

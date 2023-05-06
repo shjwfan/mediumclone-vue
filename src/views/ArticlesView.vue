@@ -1,5 +1,6 @@
 <template>
   <div class="container page">
+    <mc-banner />
     <div class="row">
       <div class="col-md-9">
         <mc-articles :pullingUrl="pullingUrl"></mc-articles>
@@ -14,6 +15,7 @@
 <script>
 // components
 import McArticles from '@/components/Articles.vue'
+import McBanner from '@/components/Banner.vue'
 import McTags from '@/components/Tags.vue'
 
 export default {
@@ -25,6 +27,7 @@ export default {
   },
   components: {
     McArticles,
+    McBanner,
     McTags,
   },
 }

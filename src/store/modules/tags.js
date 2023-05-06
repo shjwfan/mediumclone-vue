@@ -2,7 +2,7 @@ import api from '@/api/tags'
 
 const state = {
   tags: null,
-  pullingErrors: null,
+  pullingError: null,
   isPulling: false,
 }
 
@@ -18,24 +18,24 @@ const actionsTypes = {
 
 const gettersTypes = {
   tags: '[tags] tags',
-  pullingErrors: '[tags] pullingErrors',
+  pullingError: '[tags] pullingError',
   isPulling: '[tags] isPulling',
 }
 
 const mutations = {
   [mutationsTypes.pullingTagsStart](state) {
     state.tags = null
-    state.pullingErrors = null
+    state.pullingError = null
     state.isPulling = true
   },
   [mutationsTypes.pullingTagsSuccess](state, payload) {
     state.tags = payload
-    state.pullingErrors = null
+    state.pullingError = null
     state.isPulling = false
   },
   [mutationsTypes.pullingTagsFailure](state, payload) {
     state.tags = null
-    state.pullingErrors = payload
+    state.pullingError = payload
     state.isPulling = false
   },
 }
@@ -66,8 +66,8 @@ const getters = {
   [gettersTypes.tags]: state => {
     return state.tags
   },
-  [gettersTypes.pullingErrors]: state => {
-    return state.pullingErrors
+  [gettersTypes.pullingError]: state => {
+    return state.pullingError
   },
   [gettersTypes.isPulling]: state => {
     return state.isPulling
