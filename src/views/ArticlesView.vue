@@ -13,7 +13,7 @@
 import McArticles from '@/components/Articles.vue'
 
 export default {
-  name: 'McFeedsView',
+  name: 'McArticlesView',
   data() {
     return {
       pullingUrl: '/articles',
