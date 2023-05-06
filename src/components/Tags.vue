@@ -3,7 +3,10 @@
     <span>Tags</span>
     <div>
       <div v-for="(tag, index) in tags" :key="index">
-        <router-link class="tag-default tag-pill" :to="{name: 'articles'}">
+        <router-link
+          class="tag-default tag-pill"
+          :to="{name: 'articlesTags', params: {tag}}"
+        >
           {{ tag }}
         </router-link>
       </div>
